@@ -1,0 +1,26 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:docinfo: shared-head
+
+= 트리플 여행자 클럽 마일리지 서비스 API 문서
+
+== Common
+
+=== Exception
+
+|===
+| 상태 코드 | 설명
+
+| 400 | `잘못된 요청`
+| 500 | `서버 에러`
+|===
+
+```json
+{
+  "message": "에러 상세 내용"
+}
+```
