@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    # docker run --platform linux/amd64 -p 13306:3306 --name mysql_dev -e MYSQL_ROOT_PASSWORD=dev -e MYSQL_DATABASE=dev -e MYSQL_USER=dev -e MYSQL_PASSWORD=dev -d mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/dev?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: dev
+    password: dev
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: TRACE
