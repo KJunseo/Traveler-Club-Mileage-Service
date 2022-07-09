@@ -3,10 +3,8 @@ package com.triple.mileage.acceptance.review;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.triple.mileage.acceptance.AcceptanceTest;
-import com.triple.mileage.event.presentation.dto.EventRequest;
 import com.triple.mileage.place.domain.Place;
 import com.triple.mileage.place.domain.PlaceRepository;
 import com.triple.mileage.review.domain.Review;

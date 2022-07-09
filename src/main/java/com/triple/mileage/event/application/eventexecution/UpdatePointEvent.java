@@ -1,5 +1,7 @@
 package com.triple.mileage.event.application.eventexecution;
 
+import java.util.List;
+
 import com.triple.mileage.history.domain.PointHistory;
 import com.triple.mileage.history.domain.PointHistoryRepository;
 import com.triple.mileage.place.domain.Place;
