@@ -1,6 +1,7 @@
 package com.triple.mileage.place.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
@@ -20,6 +21,18 @@ public class Place {
 
     @OneToMany(mappedBy = "place")
     private List<Review> reviews = new ArrayList<>();
+
+    public Place() {
+    }
+
+    public Place(UUID id) {
+        this(id, new ArrayList<>());
+    }
+
+    public Place(UUID id, List<Review> reviews) {
+        this.id = id;
+        this.reviews = reviews;
+    }
 
     public boolean isFirstReview() {
         return reviews.size() == 1;

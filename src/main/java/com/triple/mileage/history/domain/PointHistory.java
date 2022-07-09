@@ -43,6 +43,10 @@ public class PointHistory {
         return PointType.BONUS.equals(type);
     }
 
+    public boolean isPositive() {
+        return this.point > 0;
+    }
+
     public int getPoint() {
         return point;
     }

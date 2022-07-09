@@ -18,24 +18,24 @@ public class DecreasePointEvent implements EventExecution {
 
     @Override
     public void execute(User user, Place place, Review review) {
-        int originalPoint = user.getPoint();
-        user.initPoint();
+        int reviewPoint = review.getPoint();
 
-        List<PointHistory> histories = pointHistoryRepository.findAllByUserAndReview(user, review);
-        int totalBonusPoint = histories.stream()
-                                       .filter(PointHistory::isBonus)
-                                       .mapToInt(PointHistory::getPoint)
-                                       .sum();
-
-        if (totalBonusPoint > 0) {
-            originalPoint--;
-            PointHistory history = new PointHistory(user, review, PointType.BONUS, -1);
-            pointHistoryRepository.save(history);
+        if (reviewPoint == 0) {
+            return;
         }
 
-        if (originalPoint != 0) {
-            PointHistory history = new PointHistory(user, review, PointType.CONTENT, originalPoint * -1);
-            pointHistoryRepository.save(history);
+        user.decreasePoint(reviewPoint);
+        PointHistory history = new PointHistory(user, review, PointType.BONUS, reviewPoint * -1);
+        pointHistoryRepository.save(history);
+
+        List<PointHistory> histories = pointHistoryRepository.findAllByUserAndReview(user, review);
+        boolean existBonus = histories.stream()
+                                      .filter(PointHistory::isBonus)
+                                      .anyMatch(PointHistory::isPositive);
+        if (existBonus) {
+            user.decreasePoint(1);
+            PointHistory decreaseBonus = new PointHistory(user, review, PointType.BONUS, -1);
+            pointHistoryRepository.save(decreaseBonus);
         }
     }
 }

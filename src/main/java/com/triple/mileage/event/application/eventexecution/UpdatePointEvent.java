@@ -18,25 +18,24 @@ public class UpdatePointEvent implements EventExecution {
 
     @Override
     public void execute(User user, Place place, Review review) {
-        int originalPoint = user.getPoint();
-        int curPoint = 0;
-
-        user.initPoint();
-
         List<PointHistory> histories = pointHistoryRepository.findAllByUserAndReview(user, review);
-        boolean isBonus = histories.stream()
-                                   .anyMatch(PointHistory::isBonus);
+        int prevReviewPoint = histories.stream()
+                                       .mapToInt(PointHistory::getPoint)
+                                       .sum();
+        int newReviewPoint = review.getPoint();
 
-        if (isBonus) {
+        user.decreasePoint(prevReviewPoint);
+        user.increasePoint(newReviewPoint);
+
+        boolean existBonus = histories.stream()
+                                      .filter(PointHistory::isBonus)
+                                      .anyMatch(PointHistory::isPositive);
+
+        if (existBonus) {
             user.increasePoint(1);
-            curPoint++;
         }
 
-        int point = review.getPoint();
-        user.increasePoint(point);
-        curPoint += point;
-
-        int diff = curPoint - originalPoint;
+        int diff = newReviewPoint - prevReviewPoint;
         if (diff != 0) {
             PointHistory history = new PointHistory(user, review, PointType.CONTENT, diff);
             pointHistoryRepository.save(history);
