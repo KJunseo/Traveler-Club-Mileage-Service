@@ -9,36 +9,32 @@ import com.triple.mileage.review.domain.PointType;
 import com.triple.mileage.review.domain.Review;
 import com.triple.mileage.user.domain.User;
 
-public class UpdatePointEvent implements EventExecution {
+public class DecreasePointEvent implements EventExecution {
     private final PointHistoryRepository pointHistoryRepository;
 
-    public UpdatePointEvent(PointHistoryRepository pointHistoryRepository) {
+    public DecreasePointEvent(PointHistoryRepository pointHistoryRepository) {
         this.pointHistoryRepository = pointHistoryRepository;
     }
 
     @Override
     public void execute(User user, Place place, Review review) {
-        int originalPoint = user.getPoint();
-        int curPoint = 0;
-
+        int originalPoint = review.getPoint();
         user.initPoint();
 
         List<PointHistory> histories = pointHistoryRepository.findAllByUserAndReview(user, review);
-        boolean isBonus = histories.stream()
-                                   .anyMatch(PointHistory::isBonus);
+        int totalBonusPoint = histories.stream()
+                                       .filter(PointHistory::isBonus)
+                                       .mapToInt(PointHistory::getPoint)
+                                       .sum();
 
-        if (isBonus) {
-            user.increasePoint(1);
-            curPoint++;
+        if (totalBonusPoint > 0) {
+            originalPoint--;
+            PointHistory history = new PointHistory(user, review, PointType.BONUS, -1);
+            pointHistoryRepository.save(history);
         }
 
-        int point = review.getPoint();
-        user.increasePoint(point);
-        curPoint += point;
-
-        int diff = curPoint - originalPoint;
-        if (diff != 0) {
-            PointHistory history = new PointHistory(user, review, PointType.CONTENT, diff);
+        if (originalPoint != 0) {
+            PointHistory history = new PointHistory(user, review, PointType.CONTENT, originalPoint * -1);
             pointHistoryRepository.save(history);
         }
     }

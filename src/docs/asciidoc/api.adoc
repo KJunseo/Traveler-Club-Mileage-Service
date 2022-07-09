@@ -61,6 +61,9 @@ include::{snippets}/EventAcceptanceTest/increasePoint/http-request.adoc[]
 ===== 포인트 수정 이벤트 API(리뷰 수정시)
 include::{snippets}/EventAcceptanceTest/updatePoint/http-request.adoc[]
 
+===== 포인트 삭제 이벤트 API(리뷰 삭제시)
+include::{snippets}/EventAcceptanceTest/decreasePoint/http-request.adoc[]
+
 ==== Response
 ===== 성공
 include::{snippets}/EventAcceptanceTest/increasePoint/http-response.adoc[]
