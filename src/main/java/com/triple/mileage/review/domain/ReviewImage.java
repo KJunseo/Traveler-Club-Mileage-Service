@@ -20,4 +20,8 @@ public class ReviewImage {
     public void belongTo(Review review) {
         this.review = review;
     }
+
+    public UUID getId() {
+        return id;
+    }
 }

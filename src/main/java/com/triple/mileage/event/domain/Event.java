@@ -24,4 +24,13 @@ public class Event {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Review review;
+
+    protected Event() {
+    }
+
+    public Event(EventType type, EventAction action, Review review) {
+        this.type = type;
+        this.action = action;
+        this.review = review;
+    }
 }

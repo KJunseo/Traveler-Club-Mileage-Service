@@ -45,4 +45,27 @@ public class Review {
         this.reviewImages = reviewImages;
         reviewImages.forEach(image -> image.belongTo(this));
     }
+
+    public int getPoint() {
+        int point = 0;
+        if (this.content.length() >= 1) {
+            point++;
+        }
+        if (reviewImages.size() >= 1) {
+            point++;
+        }
+        return point;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public List<ReviewImage> getReviewImages() {
+        return reviewImages;
+    }
 }
