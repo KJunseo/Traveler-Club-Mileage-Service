@@ -5,16 +5,15 @@ import javax.persistence.*;
 
 import com.triple.mileage.review.domain.Review;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 public class Event {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private UUID uuid;
 
     @Enumerated(EnumType.STRING)
     private EventType type;
@@ -28,7 +27,8 @@ public class Event {
     protected Event() {
     }
 
-    public Event(EventType type, EventAction action, Review review) {
+    public Event(UUID uuid, EventType type, EventAction action, Review review) {
+        this.uuid = uuid;
         this.type = type;
         this.action = action;
         this.review = review;

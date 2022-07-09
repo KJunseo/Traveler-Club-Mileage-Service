@@ -1,21 +1,17 @@
 package com.triple.mileage.user.domain;
 
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.*;
 
 @Entity(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private UUID uuid;
 
     private int point;
 
@@ -26,8 +22,8 @@ public class User {
         this(null, point);
     }
 
-    public User(UUID id, int point) {
-        this.id = id;
+    public User(UUID uuid, int point) {
+        this.uuid = uuid;
         this.point = point;
     }
 
@@ -39,8 +35,8 @@ public class User {
         this.point -= point;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
     public int getPoint() {

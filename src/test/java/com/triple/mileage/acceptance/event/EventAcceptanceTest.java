@@ -44,13 +44,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void increasePoint() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "ADD", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "ADD", review.getUuid(), review.getContent(), photos, user.getUuid(), place.getUuid()
         );
 
         // when
@@ -65,13 +66,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void increasePointNoSuchUser() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "ADD", review.getId(), review.getContent(), photos, UUID.randomUUID(), place.getId()
+                "REVIEW", "ADD", review.getUuid(), review.getContent(), photos, UUID.randomUUID(), place.getUuid()
         );
 
         // when
@@ -86,13 +88,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void increasePointNoSuchPlace() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "ADD", review.getId(), review.getContent(), photos, user.getId(), UUID.randomUUID()
+                "REVIEW", "ADD", review.getUuid(), review.getContent(), photos, user.getUuid(), UUID.randomUUID()
         );
 
         // when
@@ -107,13 +110,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void increasePointNoSuchReview() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "ADD", UUID.randomUUID(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "ADD", UUID.randomUUID(), review.getContent(), photos, user.getUuid(), place.getUuid()
         );
 
         // when
@@ -128,13 +132,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void increasePointNoSuchEventType() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "lotto", "ADD", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "lotto", "ADD", review.getUuid(), review.getContent(), photos, user.getUuid(), place.getUuid()
         );
 
         // when
@@ -149,13 +154,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void increasePointNoSuchEventAction() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "read", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "read", review.getUuid(), review.getContent(), photos, user.getUuid(), place.getUuid()
         );
 
         // when
@@ -170,13 +176,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void updatePoint() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "MOD", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "MOD", review.getUuid(), review.getContent(), photos, user.getUuid(), place.getUuid()
         );
 
         // when
@@ -191,13 +198,14 @@ public class EventAcceptanceTest extends AcceptanceTest {
     void decreasePoint() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "DELETE", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "DELETE", review.getUuid(), review.getContent(), photos, user.getUuid(), place.getUuid()
         );
 
         // when

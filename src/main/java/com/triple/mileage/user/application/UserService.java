@@ -20,14 +20,14 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User findById(UUID userId) {
-        return userRepository.findById(userId)
+    public User findByUuid(UUID userId) {
+        return userRepository.findByUuid(userId)
                              .orElseThrow(NoSuchUserException::new);
     }
 
     @Transactional(readOnly = true)
     public UserPointResponseDto findPoints(UserPointRequestDto requestDto) {
-        User user = findById(requestDto.getId());
+        User user = findByUuid(requestDto.getId());
         return new UserPointResponseDto(user.getPoint());
     }
 }

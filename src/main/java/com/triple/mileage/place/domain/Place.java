@@ -7,16 +7,15 @@ import javax.persistence.*;
 
 import com.triple.mileage.review.domain.Review;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 public class Place {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private UUID uuid;
 
     @OneToMany(mappedBy = "place")
     private List<Review> reviews = new ArrayList<>();
@@ -24,12 +23,12 @@ public class Place {
     public Place() {
     }
 
-    public Place(UUID id) {
-        this(id, new ArrayList<>());
+    public Place(UUID uuid) {
+        this(uuid, new ArrayList<>());
     }
 
-    public Place(UUID id, List<Review> reviews) {
-        this.id = id;
+    public Place(UUID uuid, List<Review> reviews) {
+        this.uuid = uuid;
         this.reviews = reviews;
     }
 
@@ -37,11 +36,7 @@ public class Place {
         return reviews.size() == 1;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
+    public UUID getUuid() {
+        return uuid;
     }
 }

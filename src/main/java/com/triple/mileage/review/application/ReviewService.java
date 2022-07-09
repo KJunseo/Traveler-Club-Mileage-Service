@@ -22,16 +22,17 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public Review findById(UUID reviewId) {
-        return reviewRepository.findById(reviewId)
+    public Review findByUuid(UUID reviewId) {
+        return reviewRepository.findByUuid(reviewId)
                                .orElseThrow(NoSuchReviewException::new);
     }
 
     @Transactional
     public void update(ReviewRequestDto requestDto) {
-        Review review = findById(requestDto.getId());
+        Review review = findByUuid(requestDto.getId());
 
-        List<ReviewImage> reviewImages = requestDto.getAttachedPhotoIds().stream()
+        List<ReviewImage> reviewImages = requestDto.getAttachedPhotoIds()
+                                                   .stream()
                                                    .map(ReviewImage::new)
                                                    .collect(Collectors.toList());
 

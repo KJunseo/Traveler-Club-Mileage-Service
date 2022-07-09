@@ -18,8 +18,8 @@ public class PlaceService {
     }
 
     @Transactional(readOnly = true)
-    public Place findById(UUID placeId) {
-        return placeRepository.findById(placeId)
+    public Place findByUuid(UUID placeId) {
+        return placeRepository.findByUuid(placeId)
                               .orElseThrow(NoSuchPlaceException::new);
     }
 }

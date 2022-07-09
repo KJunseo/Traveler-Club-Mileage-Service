@@ -44,14 +44,15 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     void updatePoint() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
 
         ReviewRequest reviewRequest = new ReviewRequest("너무 좋았습니다!", Collections.emptyList());
 
         // when
-        ExtractableResponse<Response> response = 리뷰_수정(review.getId(), reviewRequest);
+        ExtractableResponse<Response> response = 리뷰_수정(review.getUuid(), reviewRequest);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());

@@ -1,5 +1,7 @@
 package com.triple.mileage.event.application;
 
+import java.util.UUID;
+
 import com.triple.mileage.event.application.dto.EventRequestDto;
 import com.triple.mileage.event.application.eventexecution.EventExecution;
 import com.triple.mileage.event.domain.Event;
@@ -40,16 +42,16 @@ public class EventService {
 
     @Transactional
     public void progress(EventRequestDto requestDto) {
-        User user = userService.findById(requestDto.getUserId());
-        Place place = placeService.findById(requestDto.getPlaceId());
-        Review review = reviewService.findById(requestDto.getReviewId());
+        User user = userService.findByUuid(requestDto.getUserId());
+        Place place = placeService.findByUuid(requestDto.getPlaceId());
+        Review review = reviewService.findByUuid(requestDto.getReviewId());
 
         EventType type = requestDto.getType();
         EventAction action = requestDto.getAction();
         EventExecution eventExecution = eventActionAdapterService.getEventHandler(type, action);
         eventExecution.execute(user, place, review);
 
-        Event event = new Event(type, action, review);
+        Event event = new Event(UUID.randomUUID(), type, action, review);
         eventRepository.save(event);
     }
 }

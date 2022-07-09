@@ -3,16 +3,15 @@ package com.triple.mileage.review.domain;
 import java.util.UUID;
 import javax.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 public class ReviewImage {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Review review;
@@ -24,11 +23,11 @@ public class ReviewImage {
     public ReviewImage() {
     }
 
-    public ReviewImage(UUID id) {
-        this.id = id;
+    public ReviewImage(UUID uuid) {
+        this.uuid = uuid;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 }
