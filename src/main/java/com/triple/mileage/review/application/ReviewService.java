@@ -2,6 +2,7 @@ package com.triple.mileage.review.application;
 
 import java.util.UUID;
 
+import com.triple.mileage.exception.review.NoSuchReviewException;
 import com.triple.mileage.review.domain.Review;
 import com.triple.mileage.review.domain.ReviewRepository;
 
@@ -19,6 +20,6 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public Review findById(UUID reviewId) {
         return reviewRepository.findById(reviewId)
-                               .orElseThrow();
+                               .orElseThrow(NoSuchReviewException::new);
     }
 }

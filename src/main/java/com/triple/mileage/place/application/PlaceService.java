@@ -2,6 +2,7 @@ package com.triple.mileage.place.application;
 
 import java.util.UUID;
 
+import com.triple.mileage.exception.place.NoSuchPlaceException;
 import com.triple.mileage.place.domain.Place;
 import com.triple.mileage.place.domain.PlaceRepository;
 
@@ -19,6 +20,6 @@ public class PlaceService {
     @Transactional(readOnly = true)
     public Place findById(UUID placeId) {
         return placeRepository.findById(placeId)
-                              .orElseThrow();
+                              .orElseThrow(NoSuchPlaceException::new);
     }
 }

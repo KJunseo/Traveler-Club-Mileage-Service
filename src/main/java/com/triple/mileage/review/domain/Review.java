@@ -56,4 +56,16 @@ public class Review {
         }
         return point;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public List<ReviewImage> getReviewImages() {
+        return reviewImages;
+    }
 }

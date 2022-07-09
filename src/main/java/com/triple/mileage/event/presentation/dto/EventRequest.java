@@ -13,6 +13,27 @@ public class EventRequest {
     private UUID userId;
     private UUID placeId;
 
+    public EventRequest() {
+    }
+
+    public EventRequest(
+            String type,
+            String action,
+            UUID reviewId,
+            String content,
+            List<UUID> attachedPhotoIds,
+            UUID userId,
+            UUID placeId
+    ) {
+        this.type = type;
+        this.action = action;
+        this.reviewId = reviewId;
+        this.content = content;
+        this.attachedPhotoIds = attachedPhotoIds;
+        this.userId = userId;
+        this.placeId = placeId;
+    }
+
     public String getType() {
         return type;
     }

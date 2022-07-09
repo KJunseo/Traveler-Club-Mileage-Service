@@ -24,4 +24,8 @@ public class Place {
     public boolean isFirstReview() {
         return reviews.isEmpty();
     }
+
+    public UUID getId() {
+        return id;
+    }
 }

@@ -6,6 +6,7 @@ import com.triple.mileage.event.application.adapter.EventAdapter;
 import com.triple.mileage.event.application.eventexecution.EventExecution;
 import com.triple.mileage.event.domain.EventAction;
 import com.triple.mileage.event.domain.EventType;
+import com.triple.mileage.exception.event.NoSuchEventHandlerException;
 
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class EventActionAdapterService {
         EventAdapter eventAdapter = adapters.stream()
                                             .filter(adapter -> adapter.supports(type, action))
                                             .findFirst()
-                                            .orElseThrow();
+                                            .orElseThrow(NoSuchEventHandlerException::new);
         return eventAdapter.getEventExecution();
     }
 }

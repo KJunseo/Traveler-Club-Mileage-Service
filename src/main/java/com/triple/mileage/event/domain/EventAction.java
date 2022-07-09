@@ -2,6 +2,8 @@ package com.triple.mileage.event.domain;
 
 import java.util.Arrays;
 
+import com.triple.mileage.exception.event.NoSuchEventHandlerException;
+
 public enum EventAction {
     ADD("add"),
     MOD("mod"),
@@ -15,8 +17,8 @@ public enum EventAction {
 
     public static EventAction getAction(String action) {
         return Arrays.stream(EventAction.values())
-                     .filter(a -> a.value.equals(action))
+                     .filter(a -> a.value.equalsIgnoreCase(action))
                      .findFirst()
-                     .orElseThrow();
+                     .orElseThrow(NoSuchEventHandlerException::new);
     }
 }

@@ -2,6 +2,7 @@ package com.triple.mileage.user.application;
 
 import java.util.UUID;
 
+import com.triple.mileage.exception.user.NoSuchUserException;
 import com.triple.mileage.user.domain.User;
 import com.triple.mileage.user.domain.UserRepository;
 
@@ -19,6 +20,6 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findById(UUID userId) {
         return userRepository.findById(userId)
-                             .orElseThrow();
+                             .orElseThrow(NoSuchUserException::new);
     }
 }
