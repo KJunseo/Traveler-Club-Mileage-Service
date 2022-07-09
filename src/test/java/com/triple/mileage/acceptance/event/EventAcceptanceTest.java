@@ -50,7 +50,7 @@ public class EventAcceptanceTest extends AcceptanceTest {
         List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "review", "add", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "ADD", review.getId(), review.getContent(), photos, user.getId(), place.getId()
         );
 
         // when
@@ -71,7 +71,7 @@ public class EventAcceptanceTest extends AcceptanceTest {
         List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "review", "add", review.getId(), review.getContent(), photos, UUID.randomUUID(), place.getId()
+                "REVIEW", "ADD", review.getId(), review.getContent(), photos, UUID.randomUUID(), place.getId()
         );
 
         // when
@@ -92,7 +92,7 @@ public class EventAcceptanceTest extends AcceptanceTest {
         List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "review", "add", review.getId(), review.getContent(), photos, user.getId(), UUID.randomUUID()
+                "REVIEW", "ADD", review.getId(), review.getContent(), photos, user.getId(), UUID.randomUUID()
         );
 
         // when
@@ -113,7 +113,7 @@ public class EventAcceptanceTest extends AcceptanceTest {
         List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "review", "add", UUID.randomUUID(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "ADD", UUID.randomUUID(), review.getContent(), photos, user.getId(), place.getId()
         );
 
         // when
@@ -134,7 +134,7 @@ public class EventAcceptanceTest extends AcceptanceTest {
         List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "lotto", "add", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "lotto", "ADD", review.getId(), review.getContent(), photos, user.getId(), place.getId()
         );
 
         // when
@@ -155,7 +155,7 @@ public class EventAcceptanceTest extends AcceptanceTest {
         List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "review", "read", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "read", review.getId(), review.getContent(), photos, user.getId(), place.getId()
         );
 
         // when
@@ -163,6 +163,27 @@ public class EventAcceptanceTest extends AcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("리뷰 수정시 포인트 수정 이벤트가 발생한다.")
+    void updatePoint() {
+        // given
+        // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
+        User user = userRepository.save(new User(0));
+        Place place = placeRepository.save(new Place());
+        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+
+        EventRequest request = new EventRequest(
+                "REVIEW", "MOD", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+        );
+
+        // when
+        ExtractableResponse<Response> response = 이벤트_요청(request);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     private ExtractableResponse<Response> 이벤트_요청(EventRequest request) {

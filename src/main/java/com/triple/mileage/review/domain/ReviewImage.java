@@ -21,6 +21,13 @@ public class ReviewImage {
         this.review = review;
     }
 
+    public ReviewImage() {
+    }
+
+    public ReviewImage(UUID id) {
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }

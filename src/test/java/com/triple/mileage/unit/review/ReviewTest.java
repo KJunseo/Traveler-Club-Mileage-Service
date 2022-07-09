@@ -28,7 +28,7 @@ class ReviewTest {
         // then
         assertThat(point).isEqualTo(0);
     }
-    
+
     @Test
     @DisplayName("Review 내용이 1자 이상이면 1점을 얻는다.")
     void content() {
