@@ -1,10 +1,12 @@
 package com.triple.mileage.acceptance;
 
 import com.triple.mileage.util.DatabaseCleaner;
+import com.triple.mileage.util.TestContainerConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
@@ -17,15 +19,11 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 
-@Testcontainers
+@Import(TestContainerConfig.class)
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
@@ -36,10 +34,6 @@ public class AcceptanceTest {
 
     @Autowired
     private DatabaseCleaner cleaner;
-
-    @Container
-    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.0.22")
-            .withDatabaseName("testdb");
 
     protected RequestSpecification spec;
 

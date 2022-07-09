@@ -22,10 +22,14 @@ public class Place {
     private List<Review> reviews = new ArrayList<>();
 
     public boolean isFirstReview() {
-        return reviews.isEmpty();
+        return reviews.size() == 1;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 }

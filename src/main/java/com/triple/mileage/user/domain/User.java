@@ -32,10 +32,14 @@ public class User {
     }
 
     public void increasePoint(int point) {
-        this.point = point;
+        this.point += point;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public int getPoint() {
+        return point;
     }
 }
