@@ -186,6 +186,27 @@ public class EventAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
+    @Test
+    @DisplayName("리뷰 삭제시 포인트 삭제 이벤트가 발생한다.")
+    void decreasePoint() {
+        // given
+        // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
+        User user = userRepository.save(new User(0));
+        Place place = placeRepository.save(new Place());
+        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+
+        EventRequest request = new EventRequest(
+                "REVIEW", "DELETE", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+        );
+
+        // when
+        ExtractableResponse<Response> response = 이벤트_요청(request);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     private ExtractableResponse<Response> 이벤트_요청(EventRequest request) {
         return RestAssured.given(spec)
                           .log().all()

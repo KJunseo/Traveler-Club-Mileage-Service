@@ -152,7 +152,7 @@ public class EventIntegrationTest extends IntegrationTest {
         entityManager.flush();
         entityManager.clear();
 
-        eventService.progress(prevDto);
+        eventService.progress(prevDto); // 리뷰 생성 후 포인트 적립 이벤트 진행
         User prev = userService.findById(user.getId());
         int prevPoint = prev.getPoint();
 
@@ -165,7 +165,7 @@ public class EventIntegrationTest extends IntegrationTest {
         );
 
         // when
-        eventService.progress(curDto);
+        eventService.progress(curDto);  // 리뷰 수정 후 포인트 수정 이벤트 진행
         User cur = userService.findById(user.getId());
         int curPoint = cur.getPoint();
 
@@ -174,6 +174,34 @@ public class EventIntegrationTest extends IntegrationTest {
         assertThat(curPoint).isEqualTo(2);
     }
 
+    @Test
+    @DisplayName("리뷰 삭제시 포인트가 삭제된다.")
+    void decreasePoint() {
+        // given
+        User user = userRepository.save(new User(0));
+        EventRequestDto prevDto = reviewSaveEvent(user, "좋아요!", Collections.emptyList());
+
+        entityManager.flush();
+        entityManager.clear();
+
+        eventService.progress(prevDto); // 리뷰 생성 후 포인트 적립 이벤트 진행
+        User prev = userService.findById(user.getId());
+        int prevPoint = prev.getPoint();
+
+        EventRequestDto curDto = new EventRequestDto(
+                "REVIEW", "DELETE", prevDto.getReviewId(), "좋아요!", Collections.emptyList(), user.getId(), prevDto
+                .getPlaceId()
+        );
+
+        // when
+        eventService.progress(curDto);
+        User cur = userService.findById(user.getId());
+        int curPoint = cur.getPoint();
+
+        // then
+        assertThat(prevPoint).isEqualTo(2);
+        assertThat(curPoint).isEqualTo(0);
+    }
 
     private EventRequestDto reviewSaveEvent(User user, String content, List<ReviewImage> images) {
         Place place = placeRepository.save(new Place());
