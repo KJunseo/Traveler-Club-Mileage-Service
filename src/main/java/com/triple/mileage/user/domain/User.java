@@ -30,4 +30,8 @@ public class User {
         this.id = id;
         this.point = point;
     }
+
+    public void increasePoint(int point) {
+        this.point = point;
+    }
 }
