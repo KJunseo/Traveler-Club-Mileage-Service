@@ -35,6 +35,10 @@ public class User {
         this.point += point;
     }
 
+    public void initPoint() {
+        this.point = 0;
+    }
+
     public UUID getId() {
         return id;
     }
