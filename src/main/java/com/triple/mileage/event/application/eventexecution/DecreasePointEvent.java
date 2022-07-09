@@ -18,7 +18,7 @@ public class DecreasePointEvent implements EventExecution {
 
     @Override
     public void execute(User user, Place place, Review review) {
-        int originalPoint = review.getPoint();
+        int originalPoint = user.getPoint();
         user.initPoint();
 
         List<PointHistory> histories = pointHistoryRepository.findAllByUserAndReview(user, review);
