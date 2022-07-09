@@ -47,19 +47,19 @@ public class UserAcceptanceTest extends AcceptanceTest {
     void showUserPoint() {
         // given
         // TODO user, place, review 생성 api가 만들어진다면 repository 호출대신 해당 api 호출로 대체
-        User user = userRepository.save(new User(0));
-        Place place = placeRepository.save(new Place());
-        Review review = reviewRepository.save(new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage())));
-        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getId).collect(Collectors.toList());
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
+        Review review = reviewRepository.save(new Review(UUID.randomUUID(), "좋아요!", user, place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))));
+        List<UUID> photos = review.getReviewImages().stream().map(ReviewImage::getUuid).collect(Collectors.toList());
 
         EventRequest request = new EventRequest(
-                "REVIEW", "ADD", review.getId(), review.getContent(), photos, user.getId(), place.getId()
+                "REVIEW", "ADD", review.getUuid(), review.getContent(), photos, user.getUuid(), place.getUuid()
         );
         이벤트_요청(request);
 
-
         // when
-        ExtractableResponse<Response> response = 유저별_포인트_조회(user.getId());
+        ExtractableResponse<Response> response = 유저별_포인트_조회(user.getUuid());
         UserPointResponse result = response.as(new TypeRef<>() {});
 
         // then

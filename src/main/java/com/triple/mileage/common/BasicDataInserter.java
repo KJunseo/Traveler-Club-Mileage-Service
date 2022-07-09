@@ -1,6 +1,7 @@
 package com.triple.mileage.common;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.triple.mileage.place.domain.Place;
 import com.triple.mileage.place.domain.PlaceRepository;
@@ -28,11 +29,17 @@ public class BasicDataInserter implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        User user = userRepository.save(new User(0));
+        User user = userRepository.save(new User(UUID.randomUUID(), 0));
 
-        Place place = placeRepository.save(new Place());
+        Place place = placeRepository.save(new Place(UUID.randomUUID()));
 
-        Review review = new Review("좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage()));
+        Review review = new Review(
+                UUID.randomUUID(),
+                "좋아요!",
+                user,
+                place,
+                List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID()))
+        );
         reviewRepository.save(review);
     }
 

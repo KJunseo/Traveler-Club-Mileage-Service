@@ -1,22 +1,17 @@
 package com.triple.mileage.history.domain;
 
-import java.util.UUID;
 import javax.persistence.*;
 
 import com.triple.mileage.review.domain.PointType;
 import com.triple.mileage.review.domain.Review;
 import com.triple.mileage.user.domain.User;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity(name = "point_history")
 public class PointHistory {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

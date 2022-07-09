@@ -8,16 +8,15 @@ import javax.persistence.*;
 import com.triple.mileage.place.domain.Place;
 import com.triple.mileage.user.domain.User;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 public class Review {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private UUID uuid;
 
     private String content;
 
@@ -37,8 +36,8 @@ public class Review {
         this(null, content, user, place, reviewImages);
     }
 
-    public Review(UUID id, String content, User user, Place place, List<ReviewImage> reviewImages) {
-        this.id = id;
+    public Review(UUID uuid, String content, User user, Place place, List<ReviewImage> reviewImages) {
+        this.uuid = uuid;
         this.content = content;
         this.user = user;
         this.place = place;
@@ -63,8 +62,8 @@ public class Review {
         reviewImages.forEach(image -> image.belongTo(this));
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
     public String getContent() {
