@@ -16,4 +16,8 @@ public class ReviewImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Review review;
+
+    public void belongTo(Review review) {
+        this.review = review;
+    }
 }

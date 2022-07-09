@@ -27,7 +27,22 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     private Place place;
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST)
     private List<ReviewImage> reviewImages = new ArrayList<>();
 
+    protected Review() {
+    }
+
+    public Review(String content, User user, Place place, List<ReviewImage> reviewImages) {
+        this(null, content, user, place, reviewImages);
+    }
+
+    public Review(UUID id, String content, User user, Place place, List<ReviewImage> reviewImages) {
+        this.id = id;
+        this.content = content;
+        this.user = user;
+        this.place = place;
+        this.reviewImages = reviewImages;
+        reviewImages.forEach(image -> image.belongTo(this));
+    }
 }
