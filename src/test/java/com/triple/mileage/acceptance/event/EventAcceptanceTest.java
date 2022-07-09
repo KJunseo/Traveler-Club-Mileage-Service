@@ -207,7 +207,7 @@ public class EventAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
-    private ExtractableResponse<Response> 이벤트_요청(EventRequest request) {
+    public static ExtractableResponse<Response> 이벤트_요청(EventRequest request) {
         return RestAssured.given(spec)
                           .log().all()
                           .contentType(APPLICATION_JSON_VALUE)

@@ -79,3 +79,16 @@ include::{snippets}/EventAcceptanceTest/increasePointNoSuchReview/http-response.
 
 ===== 이벤트 타입이나 이벤트 액션이 잘못된 경우
 include::{snippets}/EventAcceptanceTest/increasePointNoSuchEventType/http-response.adoc[]
+
+== User API
+
+=== 현재 포인트 조회 API
+==== Request
+|===
+| 값 | 타입 | 필수 | 설명
+| id | String | true | 바꿀 리뷰 uuid(queryString)
+|===
+include::{snippets}/UserAcceptanceTest/showUserPoint/http-request.adoc[]
+
+==== Response
+include::{snippets}/UserAcceptanceTest/showUserPoint/http-response.adoc[]

@@ -32,8 +32,8 @@ public class ReviewService {
         Review review = findById(requestDto.getId());
 
         List<ReviewImage> reviewImages = requestDto.getAttachedPhotoIds().stream()
-                                              .map(ReviewImage::new)
-                                              .collect(Collectors.toList());
+                                                   .map(ReviewImage::new)
+                                                   .collect(Collectors.toList());
 
         review.update(requestDto.getContent(), reviewImages);
     }
