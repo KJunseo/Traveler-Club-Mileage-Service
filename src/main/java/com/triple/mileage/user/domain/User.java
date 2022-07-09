@@ -18,4 +18,16 @@ public class User {
     private UUID id;
 
     private int point;
+
+    protected User() {
+    }
+
+    public User(int point) {
+        this(null, point);
+    }
+
+    public User(UUID id, int point) {
+        this.id = id;
+        this.point = point;
+    }
 }
