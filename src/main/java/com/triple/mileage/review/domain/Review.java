@@ -57,6 +57,12 @@ public class Review {
         return point;
     }
 
+    public void update(String content, List<ReviewImage> reviewImages) {
+        this.content = content;
+        this.reviewImages = reviewImages;
+        reviewImages.forEach(image -> image.belongTo(this));
+    }
+
     public UUID getId() {
         return id;
     }

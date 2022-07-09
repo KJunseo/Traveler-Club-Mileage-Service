@@ -25,6 +25,21 @@
 }
 ```
 
+== Review API
+
+=== 리뷰 수정 API(포인트 수정 API 전에 리뷰가 수정되어야 함)
+==== Request
+|===
+| 값 | 타입 | 필수 | 설명
+| id | String | true | 바꿀 리뷰 uuid(pathVariable)
+| content | String | true | 바꿀 리뷰 내용
+| attachedPhotoIds | Array | true | 바꿀 리뷰 이미지
+|===
+include::{snippets}/ReviewAcceptanceTest/updatePoint/http-request.adoc[]
+
+==== Response
+include::{snippets}/ReviewAcceptanceTest/updatePoint/http-response.adoc[]
+
 == Event API
 
 === 포인트 적립 API
