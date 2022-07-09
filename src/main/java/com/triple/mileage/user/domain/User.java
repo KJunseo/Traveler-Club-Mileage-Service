@@ -38,7 +38,7 @@ public class User {
     public void decreasePoint(int point) {
         this.point -= point;
     }
-    
+
     public UUID getId() {
         return id;
     }
