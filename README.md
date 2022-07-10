@@ -17,6 +17,7 @@
 4) `docker-compose up -d` (MySQL 띄우는데 시간이 좀 걸립니다!)
 
 **M1 환경인 경우 docker-compose.yml 파일에서 주석을 풀어줘야합니다!**
+
 4) `vi docker-compose.yml`
 5) 4번째 라인 `platform: linux/x86_64` 주석을 풀어주고 저장
 6) `docker-compose up -d`
