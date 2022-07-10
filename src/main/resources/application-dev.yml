@@ -2,17 +2,21 @@ spring:
   datasource:
     # docker run --platform linux/amd64 -p 13306:3306 --name mysql_dev -e MYSQL_ROOT_PASSWORD=dev -e MYSQL_DATABASE=dev -e MYSQL_USER=dev -e MYSQL_PASSWORD=dev -d mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:13306/dev?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    url: jdbc:mysql://localhost:13306/dev?useSSL=false&serverTimezone=UTC&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: dev
     password: dev
   jpa:
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 100
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 logging:
   level:
     org:

@@ -1,0 +1,71 @@
+# 아래 {}에 실제 uuid 값을 넣어주면 됩니다.
+
+### 더미데이터 조회(/dummy)
+GET {{host}}/dummy
+Content-Type: application/json
+
+### 1. 리뷰 생성 후 포인트 적립 이벤트 API
+#### 포인트 적립 이벤트 API(리뷰 생성 이후. (리뷰 생성은 어플리케이션 실행시 자동으로 하나 생성됨)
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "type": "REVIEW",
+  "action": "ADD",
+  "reviewId": "{review uuid}",
+  "content": "좋아요!",
+  "attachedPhotoIds": ["{photo uuid}"],
+  "userId": "{user uuid}",
+  "placeId": "{place uuid}"
+}
+
+### 2. 리뷰 수정 후 포인트 수정 이벤트 API
+#### 리뷰 수정 API
+PATCH {{host}}/reviews/{review uuid}
+Content-Type: application/json
+
+{
+  "content": "",
+  "attachedPhotoIds": ["{photo uuid}"]
+}
+
+#### 포인트 수정 이벤트 API(리뷰 수정 API 호출 후)
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "type": "REVIEW",
+  "action": "MOD",
+  "reviewId": "{review uuid}",
+  "content": "",
+  "attachedPhotoIds": ["{photo uuid}"],
+  "userId": "{user uuid}",
+  "placeId": "{place uuid}"
+}
+
+### 3. 포인트 삭제 이벤트 API
+#### 포인트 삭제 이벤트 API(포인트 삭제 이벤트 API 호출 이후 리뷰 삭제)
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "type": "REVIEW",
+  "action": "DELETE",
+  "reviewId": "{review uuid}",
+  "content": "",
+  "attachedPhotoIds": ["{photo uuid}"],
+  "userId": "{user uuid}",
+  "placeId": "{place uuid}"
+}
+
+### 4. 유저별 포인트 조회 API
+GET {{host}}/my-points?id={user uuid}
+Content-Type: application/json
+
+### 5. 전체 포인트 내역 조회 API
+GET {{host}}/point-histories
+Content-Type: application/json
+
+### 6. 유저별 포인트 내역 조회 API
+GET {{host}}/point-histories/users?id={user uuid}
+Content-Type: application/json

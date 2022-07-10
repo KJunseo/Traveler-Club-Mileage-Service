@@ -1,0 +1,114 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:docinfo: shared-head
+
+= 트리플 여행자 클럽 마일리지 서비스 API 문서
+
+== Common
+
+=== Exception
+
+|===
+| 상태 코드 | 설명
+
+| 400 | `잘못된 요청`
+| 500 | `서버 에러`
+|===
+
+```json
+{
+  "message": "에러 상세 내용"
+}
+```
+
+== Review API
+
+=== 리뷰 수정 API(포인트 수정 API 전에 리뷰가 수정되어야 함)
+==== Request
+|===
+| 값 | 타입 | 필수 | 설명
+| id | String | true | 바꿀 리뷰 uuid(pathVariable)
+| content | String | true | 바꿀 리뷰 내용
+| attachedPhotoIds | Array | true | 바꿀 리뷰 이미지
+|===
+include::{snippets}/ReviewAcceptanceTest/updatePoint/http-request.adoc[]
+
+==== Response
+include::{snippets}/ReviewAcceptanceTest/updatePoint/http-response.adoc[]
+
+== Event API
+
+=== 포인트 적립 API
+
+==== Request
+|===
+| 값 | 타입 | 필수 | 설명
+| type | String | true | 이벤트 타입(REVIEW)
+| action | String | true | 이벤트 행위(ADD, MOD, DELETE)
+| reviewId | String | true | 리뷰 uuid
+| content | String | true | 리뷰 내용
+| attachedPhotoIds | Array | true | 리뷰에 포함된 사진들의 uuid
+| userId | String | true | 리뷰 작성 유저 uuid
+| placeId | String | true | 리뷰가 작성된 장소 uuid
+|===
+===== 포인트 적립 이벤트 API(리뷰 생성시)
+include::{snippets}/EventAcceptanceTest/increasePoint/http-request.adoc[]
+
+===== 포인트 수정 이벤트 API(리뷰 수정시)
+include::{snippets}/EventAcceptanceTest/updatePoint/http-request.adoc[]
+
+===== 포인트 삭제 이벤트 API(리뷰 삭제시)
+include::{snippets}/EventAcceptanceTest/decreasePoint/http-request.adoc[]
+
+==== Response
+===== 성공
+include::{snippets}/EventAcceptanceTest/increasePoint/http-response.adoc[]
+
+===== 사용자 id가 잘못된 경우
+include::{snippets}/EventAcceptanceTest/increasePointNoSuchUser/http-response.adoc[]
+
+===== 장소 id가 잘못된 경우
+include::{snippets}/EventAcceptanceTest/increasePointNoSuchPlace/http-response.adoc[]
+
+===== 리뷰 id가 잘못된 경우
+include::{snippets}/EventAcceptanceTest/increasePointNoSuchReview/http-response.adoc[]
+
+===== 이벤트 타입이나 이벤트 액션이 잘못된 경우
+include::{snippets}/EventAcceptanceTest/increasePointNoSuchEventType/http-response.adoc[]
+
+== User API
+
+=== 현재 포인트 조회 API
+==== Request
+|===
+| 값 | 타입 | 필수 | 설명
+| id | String | true | 바꿀 리뷰 uuid(queryString)
+|===
+include::{snippets}/UserAcceptanceTest/showUserPoint/http-request.adoc[]
+
+==== Response
+include::{snippets}/UserAcceptanceTest/showUserPoint/http-response.adoc[]
+
+== History API
+
+=== 전체 포인트 적립 내역 조회 API
+==== Request
+include::{snippets}/HistoryAcceptanceTest/allPointHistories/http-request.adoc[]
+
+==== Response
+include::{snippets}/HistoryAcceptanceTest/allPointHistories/http-response.adoc[]
+
+=== 유저별 포인트 적립 내역 조회 API
+==== Request
+|===
+| 값 | 타입 | 필수 | 설명
+| id | String | true | 유저 uuid(queryString)
+|===
+include::{snippets}/HistoryAcceptanceTest/userPointHistories/http-request.adoc[]
+
+==== Response
+include::{snippets}/HistoryAcceptanceTest/userPointHistories/http-response.adoc[]
