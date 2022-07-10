@@ -1,5 +1,6 @@
 package com.triple.mileage.history.domain;
 
+import java.util.UUID;
 import javax.persistence.*;
 
 import com.triple.mileage.review.domain.PointType;
@@ -34,12 +35,16 @@ public class PointHistory {
         this.point = point;
     }
 
-    public boolean isBonus() {
-        return PointType.BONUS.equals(type);
+    public UUID getUserUuid() {
+        return user.getUuid();
     }
 
-    public boolean isPositive() {
-        return this.point > 0;
+    public UUID getReviewUuid() {
+        return review.getUuid();
+    }
+
+    public PointType getType() {
+        return type;
     }
 
     public int getPoint() {

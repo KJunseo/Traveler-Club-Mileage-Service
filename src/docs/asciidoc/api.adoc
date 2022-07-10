@@ -92,3 +92,23 @@ include::{snippets}/UserAcceptanceTest/showUserPoint/http-request.adoc[]
 
 ==== Response
 include::{snippets}/UserAcceptanceTest/showUserPoint/http-response.adoc[]
+
+== History API
+
+=== 전체 포인트 적립 내역 조회 API
+==== Request
+include::{snippets}/HistoryAcceptanceTest/allPointHistories/http-request.adoc[]
+
+==== Response
+include::{snippets}/HistoryAcceptanceTest/allPointHistories/http-response.adoc[]
+
+=== 유저별 포인트 적립 내역 조회 API
+==== Request
+|===
+| 값 | 타입 | 필수 | 설명
+| id | String | true | 유저 uuid(queryString)
+|===
+include::{snippets}/HistoryAcceptanceTest/userPointHistories/http-request.adoc[]
+
+==== Response
+include::{snippets}/HistoryAcceptanceTest/userPointHistories/http-response.adoc[]

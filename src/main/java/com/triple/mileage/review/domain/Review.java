@@ -93,6 +93,10 @@ public class Review {
         reviewImages.forEach(image -> image.belongTo(this));
     }
 
+    public boolean wroteBy(User user) {
+        return this.user.equals(user);
+    }
+
     public UUID getUuid() {
         return uuid;
     }
@@ -104,5 +108,4 @@ public class Review {
     public List<ReviewImage> getReviewImages() {
         return reviewImages;
     }
-
 }

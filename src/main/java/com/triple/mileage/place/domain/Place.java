@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 import com.triple.mileage.review.domain.Review;
+import com.triple.mileage.user.domain.User;
 
 @Entity
 public class Place {
@@ -32,8 +33,10 @@ public class Place {
         this.reviews = reviews;
     }
 
-    public boolean isFirstReview() {
-        return reviews.size() == 1;
+    public boolean isFirstReview(User user) {
+        boolean isMine = reviews.stream()
+                                .anyMatch(review -> review.wroteBy(user));
+        return reviews.size() == 1 && isMine;
     }
 
     public UUID getUuid() {

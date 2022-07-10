@@ -30,6 +30,7 @@ public class RecordAspect {
     @Around(value = "recordPointHistory(record, user, place, review)", argNames = "joinPoint,record,user,place,review")
     public Object record(ProceedingJoinPoint joinPoint, Record record, User user, Place place, Review review) throws Throwable {
         int prevBasicPoint = review.getBasicPoint();
+        int prevBonusPoint = review.getBonusPoint();
 
         Object result = joinPoint.proceed();
 
@@ -47,7 +48,7 @@ public class RecordAspect {
         }
         if (EventAction.DELETE.equals(action)) {
             record(user, review, PointType.CONTENT, prevBasicPoint * -1);
-            record(user, review, PointType.BONUS, bonusPoint * -1);
+            record(user, review, PointType.BONUS, prevBonusPoint * -1);
         }
 
         return result;
