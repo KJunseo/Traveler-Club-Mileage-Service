@@ -26,6 +26,9 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     private Place place;
 
+    @Embedded
+    private ReviewPoint reviewPoint;
+
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST)
     private List<ReviewImage> reviewImages = new ArrayList<>();
 
@@ -37,23 +40,51 @@ public class Review {
     }
 
     public Review(UUID uuid, String content, User user, Place place, List<ReviewImage> reviewImages) {
+        this(null, uuid, content, user, place, new ReviewPoint(), reviewImages);
+    }
+
+    public Review(UUID uuid, String content, User user, Place place, ReviewPoint reviewPoint, List<ReviewImage> reviewImages) {
+        this(null, uuid, content, user, place, reviewPoint, reviewImages);
+    }
+
+    public Review(Long id, UUID uuid, String content, User user, Place place, ReviewPoint reviewPoint, List<ReviewImage> reviewImages) {
+        this.id = id;
         this.uuid = uuid;
         this.content = content;
         this.user = user;
         this.place = place;
+        this.reviewPoint = reviewPoint;
         this.reviewImages = reviewImages;
         reviewImages.forEach(image -> image.belongTo(this));
     }
 
-    public int getPoint() {
-        int point = 0;
+    public void calculatePoint() {
         if (this.content.length() >= 1) {
-            point++;
+            reviewPoint.increaseContentPoint();
         }
         if (reviewImages.size() >= 1) {
-            point++;
+            reviewPoint.increasePhotoPoint();
         }
-        return point;
+    }
+
+    public void increaseBonusPoint() {
+        reviewPoint.increaseBonusPoint();
+    }
+
+    public void initPoint() {
+        reviewPoint.init();
+    }
+
+    public void initBasicPoint() {
+        reviewPoint.initBasicPoint();
+    }
+
+    public int getBasicPoint() {
+        return reviewPoint.basicPoint();
+    }
+
+    public int getBonusPoint() {
+        return reviewPoint.bonusPoint();
     }
 
     public void update(String content, List<ReviewImage> reviewImages) {
@@ -73,4 +104,5 @@ public class Review {
     public List<ReviewImage> getReviewImages() {
         return reviewImages;
     }
+
 }

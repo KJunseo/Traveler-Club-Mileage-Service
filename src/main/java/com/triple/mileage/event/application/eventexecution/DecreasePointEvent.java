@@ -1,7 +1,5 @@
 package com.triple.mileage.event.application.eventexecution;
 
-import java.util.List;
-
 import com.triple.mileage.history.domain.PointHistory;
 import com.triple.mileage.history.domain.PointHistoryRepository;
 import com.triple.mileage.place.domain.Place;
@@ -18,24 +16,22 @@ public class DecreasePointEvent implements EventExecution {
 
     @Override
     public void execute(User user, Place place, Review review) {
-        int reviewPoint = review.getPoint();
+        int basicPoint = review.getBasicPoint();
+        int bonusPoint = review.getBonusPoint();
+        user.decreasePoint(basicPoint + bonusPoint);
+        review.initPoint();
 
-        if (reviewPoint == 0) {
-            return;
+        recordPointHistory(user, review, basicPoint, bonusPoint);
+    }
+
+    private void recordPointHistory(User user, Review review, int basicPoint, int bonusPoint) {
+        if (basicPoint != 0) {
+            PointHistory history = new PointHistory(user, review, PointType.CONTENT, basicPoint * -1);
+            pointHistoryRepository.save(history);
         }
-
-        user.decreasePoint(reviewPoint);
-        PointHistory history = new PointHistory(user, review, PointType.BONUS, reviewPoint * -1);
-        pointHistoryRepository.save(history);
-
-        List<PointHistory> histories = pointHistoryRepository.findAllByUserAndReview(user, review);
-        boolean existBonus = histories.stream()
-                                      .filter(PointHistory::isBonus)
-                                      .anyMatch(PointHistory::isPositive);
-        if (existBonus) {
-            user.decreasePoint(1);
-            PointHistory decreaseBonus = new PointHistory(user, review, PointType.BONUS, -1);
-            pointHistoryRepository.save(decreaseBonus);
+        if (bonusPoint != 0) {
+            PointHistory history = new PointHistory(user, review, PointType.BONUS, bonusPoint * -1);
+            pointHistoryRepository.save(history);
         }
     }
 }

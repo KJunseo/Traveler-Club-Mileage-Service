@@ -10,6 +10,7 @@ import com.triple.mileage.place.domain.Place;
 import com.triple.mileage.review.domain.PointType;
 import com.triple.mileage.review.domain.Review;
 import com.triple.mileage.review.domain.ReviewImage;
+import com.triple.mileage.review.domain.ReviewPoint;
 import com.triple.mileage.user.domain.User;
 
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 @DisplayName("DecreasePoint 단위 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -33,13 +33,11 @@ public class DecreasePointTest {
     @DisplayName("리뷰를 삭제해서 점수가 초기화 된다.")
     void updatePoint() {
         // given
-        User user = new User(UUID.randomUUID(), 3);
+        User user = new User(UUID.randomUUID(), 7);
         Place place = new Place(UUID.randomUUID());
-        Review review = new Review(UUID.randomUUID(), "좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage()));
+        Review review = new Review(UUID.randomUUID(), "좋아요!", user, place,
+                new ReviewPoint(1, 1, 1), List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID())));
         PointHistory history = new PointHistory(user, review, PointType.BONUS, 1);
-
-        given(pointHistoryRepository.findAllByUserAndReview(user, review))
-                .willReturn(List.of(history));
 
         DecreasePointEvent event = new DecreasePointEvent(pointHistoryRepository);
 
@@ -47,7 +45,7 @@ public class DecreasePointTest {
         event.execute(user, place, review);
 
         // then
-        assertThat(user.getPoint()).isEqualTo(0);
+        assertThat(user.getPoint()).isEqualTo(4);
     }
 
 }
