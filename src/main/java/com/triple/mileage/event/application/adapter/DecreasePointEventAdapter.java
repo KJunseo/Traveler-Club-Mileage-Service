@@ -4,16 +4,15 @@ import com.triple.mileage.event.application.eventexecution.DecreasePointEvent;
 import com.triple.mileage.event.application.eventexecution.EventExecution;
 import com.triple.mileage.event.domain.EventAction;
 import com.triple.mileage.event.domain.EventType;
-import com.triple.mileage.history.domain.PointHistoryRepository;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class DecreasePointEventAdapter implements EventAdapter {
-    private final PointHistoryRepository pointHistoryRepository;
+    private final DecreasePointEvent decreasePointEvent;
 
-    public DecreasePointEventAdapter(PointHistoryRepository pointHistoryRepository) {
-        this.pointHistoryRepository = pointHistoryRepository;
+    public DecreasePointEventAdapter(DecreasePointEvent decreasePointEvent) {
+        this.decreasePointEvent = decreasePointEvent;
     }
 
     @Override
@@ -23,6 +22,6 @@ public class DecreasePointEventAdapter implements EventAdapter {
 
     @Override
     public EventExecution getEventExecution() {
-        return new DecreasePointEvent(pointHistoryRepository);
+        return decreasePointEvent;
     }
 }

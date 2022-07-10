@@ -1,5 +1,6 @@
 package com.triple.mileage.event.application;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.triple.mileage.event.application.dto.EventRequestDto;
@@ -25,19 +26,22 @@ public class EventService {
     private final PlaceService placeService;
     private final ReviewService reviewService;
     private final EventActionAdapterService eventActionAdapterService;
+    private final List<EventExecution> eventExecutions;
 
     public EventService(
             EventRepository eventRepository,
             UserService userService,
             PlaceService placeService,
             ReviewService reviewService,
-            EventActionAdapterService eventActionAdapterService
+            EventActionAdapterService eventActionAdapterService,
+            List<EventExecution> eventExecutions
     ) {
         this.eventRepository = eventRepository;
         this.userService = userService;
         this.placeService = placeService;
         this.reviewService = reviewService;
         this.eventActionAdapterService = eventActionAdapterService;
+        this.eventExecutions = eventExecutions;
     }
 
     @Transactional
@@ -49,9 +53,17 @@ public class EventService {
         EventType type = requestDto.getType();
         EventAction action = requestDto.getAction();
         EventExecution eventExecution = eventActionAdapterService.getEventHandler(type, action);
-        eventExecution.execute(user, place, review);
+        EventExecution execution = getEventExecution(eventExecution);
+        execution.execute(user, place, review);
 
         Event event = new Event(UUID.randomUUID(), type, action, review);
         eventRepository.save(event);
+    }
+
+    private EventExecution getEventExecution(EventExecution eventExecution) {
+        return eventExecutions.stream()
+                              .filter(e -> e.isSame(eventExecution))
+                              .findFirst()
+                              .orElseThrow();
     }
 }
