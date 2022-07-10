@@ -15,14 +15,13 @@ public class IncreasePointEvent implements EventExecution {
     @Override
     public void execute(User user, Place place, Review review) {
         review.calculatePoint();
-        if (place.isFirstReview()) {
+        if (place.isFirstReview(user)) {
             review.increaseBonusPoint();
         }
 
         int basicPoint = review.getBasicPoint();
         int bonusPoint = review.getBonusPoint();
         user.increasePoint(basicPoint + bonusPoint);
-
     }
 
     @Override
