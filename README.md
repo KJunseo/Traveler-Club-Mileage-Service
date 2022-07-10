@@ -14,13 +14,15 @@
 1) `git clone https://github.com/KJunseo/Traveler-Club-Mileage-Service.git`
 2) `cd Traveler-Club-Mileage-Service/`
 3) `./gradlew clean build`
-4) `docker-compose up -d` (MySQL 띄우는데 시간이 좀 걸립니다!)
+4) `docker-compose build --pull`
+5) `docker-compose up -d` (MySQL 띄우는데 시간이 좀 걸립니다!)
 
 **M1 환경인 경우 docker-compose.yml 파일에서 주석을 풀어줘야합니다!**
 
 4) `vi docker-compose.yml`
 5) 4번째 라인 `platform: linux/x86_64` 주석을 풀어주고 저장
-6) `docker-compose up -d`
+6) `docker-compose build --pull`
+7) `docker-compose up -d`
 
 ### 📚 설명
 #### 포인트 적립 API 
