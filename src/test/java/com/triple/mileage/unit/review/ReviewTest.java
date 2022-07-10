@@ -23,7 +23,8 @@ class ReviewTest {
         Review review = new Review("", new User(0), new Place(), Collections.emptyList());
 
         // when
-        int point = review.getPoint();
+        review.calculatePoint();
+        int point = review.getBasicPoint();
 
         // then
         assertThat(point).isEqualTo(0);
@@ -36,7 +37,8 @@ class ReviewTest {
         Review review = new Review("굿", new User(0), new Place(), Collections.emptyList());
 
         // when
-        int point = review.getPoint();
+        review.calculatePoint();
+        int point = review.getBasicPoint();
 
         // then
         assertThat(point).isEqualTo(1);
@@ -50,7 +52,8 @@ class ReviewTest {
         Review review = new Review("", new User(0), new Place(), List.of(new ReviewImage()));
 
         // when
-        int point = review.getPoint();
+        review.calculatePoint();
+        int point = review.getBasicPoint();
 
         // then
         assertThat(point).isEqualTo(1);
@@ -63,7 +66,8 @@ class ReviewTest {
         Review review = new Review("굿", new User(0), new Place(), List.of(new ReviewImage()));
 
         // when
-        int point = review.getPoint();
+        review.calculatePoint();
+        int point = review.getBasicPoint();
 
         // then
         assertThat(point).isEqualTo(2);

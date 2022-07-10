@@ -1,7 +1,5 @@
 package com.triple.mileage.event.application.eventexecution;
 
-import java.util.List;
-
 import com.triple.mileage.history.domain.PointHistory;
 import com.triple.mileage.history.domain.PointHistoryRepository;
 import com.triple.mileage.place.domain.Place;
@@ -18,24 +16,20 @@ public class UpdatePointEvent implements EventExecution {
 
     @Override
     public void execute(User user, Place place, Review review) {
-        List<PointHistory> histories = pointHistoryRepository.findAllByUserAndReview(user, review);
-        int prevReviewPoint = histories.stream()
-                                       .mapToInt(PointHistory::getPoint)
-                                       .sum();
-        int newReviewPoint = review.getPoint();
+        int prevBasicPoint = review.getBasicPoint();
+        user.decreasePoint(prevBasicPoint);
 
-        user.decreasePoint(prevReviewPoint);
-        user.increasePoint(newReviewPoint);
+        review.initBasicPoint();
+        review.calculatePoint();
 
-        boolean existBonus = histories.stream()
-                                      .filter(PointHistory::isBonus)
-                                      .anyMatch(PointHistory::isPositive);
+        int newBasicPoint = review.getBasicPoint();
+        user.increasePoint(newBasicPoint);
 
-        if (existBonus) {
-            user.increasePoint(1);
-        }
+        recordPointHistory(user, review, prevBasicPoint, newBasicPoint);
+    }
 
-        int diff = newReviewPoint - prevReviewPoint;
+    private void recordPointHistory(User user, Review review, int prevBasicPoint, int newBasicPoint) {
+        int diff = newBasicPoint - prevBasicPoint;
         if (diff != 0) {
             PointHistory history = new PointHistory(user, review, PointType.CONTENT, diff);
             pointHistoryRepository.save(history);

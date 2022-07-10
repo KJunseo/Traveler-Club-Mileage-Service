@@ -16,14 +16,25 @@ public class IncreasePointEvent implements EventExecution {
 
     @Override
     public void execute(User user, Place place, Review review) {
-        int point = review.getPoint();
-        user.increasePoint(point);
-        PointHistory contentHistory = new PointHistory(user, review, PointType.CONTENT, point);
-        pointHistoryRepository.save(contentHistory);
-
+        review.calculatePoint();
         if (place.isFirstReview()) {
-            user.increasePoint(1);
-            PointHistory bonusHistory = new PointHistory(user, review, PointType.BONUS, 1);
+            review.increaseBonusPoint();
+        }
+
+        int basicPoint = review.getBasicPoint();
+        int bonusPoint = review.getBonusPoint();
+        user.increasePoint(basicPoint + bonusPoint);
+
+        recordPointHistory(user, review, basicPoint, bonusPoint);
+    }
+
+    private void recordPointHistory(User user, Review review, int basicPoint, int bonusPoint) {
+        if (basicPoint != 0) {
+            PointHistory contentHistory = new PointHistory(user, review, PointType.CONTENT, basicPoint);
+            pointHistoryRepository.save(contentHistory);
+        }
+        if (bonusPoint != 0) {
+            PointHistory bonusHistory = new PointHistory(user, review, PointType.BONUS, bonusPoint);
             pointHistoryRepository.save(bonusHistory);
         }
     }

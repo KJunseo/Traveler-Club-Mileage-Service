@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.UUID;
 
 import com.triple.mileage.event.application.eventexecution.UpdatePointEvent;
-import com.triple.mileage.history.domain.PointHistory;
 import com.triple.mileage.history.domain.PointHistoryRepository;
 import com.triple.mileage.place.domain.Place;
-import com.triple.mileage.review.domain.PointType;
 import com.triple.mileage.review.domain.Review;
 import com.triple.mileage.review.domain.ReviewImage;
+import com.triple.mileage.review.domain.ReviewPoint;
 import com.triple.mileage.user.domain.User;
 
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 @DisplayName("UpdatePoint 단위 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -35,11 +33,8 @@ public class UpdatePointTest {
         // given
         User user = new User(UUID.randomUUID(), 1);
         Place place = new Place(UUID.randomUUID());
-        Review review = new Review(UUID.randomUUID(), "좋아요!", user, place, List.of(new ReviewImage(), new ReviewImage()));
-        PointHistory history = new PointHistory(user, review, PointType.BONUS, 1);
-
-        given(pointHistoryRepository.findAllByUserAndReview(user, review))
-                .willReturn(List.of(history));
+        Review review = new Review(UUID.randomUUID(), "좋아요!", user, place,
+                new ReviewPoint(0, 0, 1), List.of(new ReviewImage(UUID.randomUUID()), new ReviewImage(UUID.randomUUID())));
 
         UpdatePointEvent event = new UpdatePointEvent(pointHistoryRepository);
 
