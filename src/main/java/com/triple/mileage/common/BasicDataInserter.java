@@ -46,6 +46,7 @@ public class BasicDataInserter implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         deleteAll();
+
         User user = userRepository.save(new User(UUID.randomUUID(), 0));
 
         Place place = placeRepository.save(new Place(UUID.randomUUID()));
