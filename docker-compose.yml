@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   mysqldb:
-    platform: linux/x86_64 # M1 MAC인 경우
+#    platform: linux/x86_64 # M1 MAC인 경우
     image: "mysql:8"
     restart: always
     ports:
