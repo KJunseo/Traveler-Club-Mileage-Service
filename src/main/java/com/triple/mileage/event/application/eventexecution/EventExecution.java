@@ -7,4 +7,6 @@ import com.triple.mileage.user.domain.User;
 public interface EventExecution {
 
     void execute(User user, Place place, Review review);
+
+    boolean isSame(EventExecution eventExecution);
 }

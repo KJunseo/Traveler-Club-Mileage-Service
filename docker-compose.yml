@@ -17,7 +17,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:mysql://mysqldb:3306/mileage?useSSL=false&serverTimezone=UTC&characterEncoding=utf8"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysqldb:3306/mileage?useSSL=false&serverTimezone=UTC&characterEncoding=utf8&allowPublicKeyRetrieval=true"
       SPRING_DATASOURCE_USERNAME: "test"
       SPRING_DATASOURCE_PASSWORD: "test"
     depends_on:

@@ -4,16 +4,15 @@ import com.triple.mileage.event.application.eventexecution.EventExecution;
 import com.triple.mileage.event.application.eventexecution.IncreasePointEvent;
 import com.triple.mileage.event.domain.EventAction;
 import com.triple.mileage.event.domain.EventType;
-import com.triple.mileage.history.domain.PointHistoryRepository;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class IncreasePointEventAdapter implements EventAdapter {
-    private final PointHistoryRepository pointHistoryRepository;
+    private final IncreasePointEvent increasePointEvent;
 
-    public IncreasePointEventAdapter(PointHistoryRepository pointHistoryRepository) {
-        this.pointHistoryRepository = pointHistoryRepository;
+    public IncreasePointEventAdapter(IncreasePointEvent increasePointEvent) {
+        this.increasePointEvent = increasePointEvent;
     }
 
     @Override
@@ -23,6 +22,6 @@ public class IncreasePointEventAdapter implements EventAdapter {
 
     @Override
     public EventExecution getEventExecution() {
-        return new IncreasePointEvent(pointHistoryRepository);
+        return increasePointEvent;
     }
 }
